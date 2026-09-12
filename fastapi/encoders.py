@@ -25,6 +25,7 @@ from pydantic import BaseModel
 from pydantic.networks import AnyUrl, NameEmail
 from pydantic.types import SecretBytes, SecretStr
 from pydantic_core import PydanticUndefinedType
+from typing_extensions import Sentinel
 
 from ._compat import (
     Url,
@@ -109,6 +110,7 @@ ENCODERS_BY_TYPE: dict[type[Any], Callable[[Any], Any]] = {
     UUID: str,
     Url: str,
     AnyUrl: str,
+    Sentinel: repr,
 }
 
 

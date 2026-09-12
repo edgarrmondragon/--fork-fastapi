@@ -13,6 +13,7 @@ from fastapi._compat import Undefined
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import PydanticV1NotSupportedError
 from pydantic import BaseModel, Field, ValidationError
+from typing_extensions import Sentinel
 
 
 class Person:
@@ -325,6 +326,16 @@ def test_encode_deque_encodes_child_models():
 def test_encode_pydantic_undefined():
     data = {"value": Undefined}
     assert jsonable_encoder(data) == {"value": None}
+
+
+def test_encode_sentinel():
+    MISSING = Sentinel("MISSING")
+    data = {"value": MISSING}
+    assert jsonable_encoder(data) == {"value": "MISSING"}
+
+    NULL = Sentinel("NULL", repr="<NULL>")
+    data = {"value": NULL}
+    assert jsonable_encoder(data) == {"value": "<NULL>"}
 
 
 @pytest.mark.filterwarnings("ignore::DeprecationWarning")
